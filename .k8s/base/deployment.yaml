@@ -41,7 +41,7 @@ spec:
                 - test-container-name
             topologyKey: kubernetes.io/hostname
       containers:
-        - image: container-to-change-cd
+        - image: container-image-to-change
           imagePullPolicy: Always
           name: test-container-name
           ports:
