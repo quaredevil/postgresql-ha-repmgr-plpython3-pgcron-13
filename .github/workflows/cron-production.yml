@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
-  
+
+env:
+  postgresql-version: 13
+
 jobs:
   build-deploy-release:
     runs-on: ubuntu-latest
@@ -36,10 +39,13 @@ jobs:
           VERSION=latest
           TAGS="${DOCKER_IMAGE}:${VERSION}"
 
-          VERSION=${{ steps.tag_version.outputs.new_tag }}
+          VERSION=${{ env.postgresql-version }}-${{ steps.tag_version.outputs.new_tag }}
+          echo ::set-output name=tag_with_version::${TAG_WITH_VERSION}
+          
           TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION}"
           echo ::set-output name=tags::${TAGS}
           echo "Tags: $TAGS"
+          echo "Tag(version): ${TAG_WITH_VERSION}"
       
       #----------------------------------------------
       #This is the a separate action that sets up buildx runner
@@ -84,7 +90,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: ${{ steps.prepare.outputs.tags }}
+          tags: ${{ steps.prepare_k8s.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -102,7 +108,7 @@ jobs:
       #----------------------------------------------
       - name: ☸️ K8S | Update manifests (kustomize)
         env:
-          DOCKERHUB_TAGS: ${{ steps.prepare_k8s.outputs.tags }}
+          DOCKERHUB_TAGS: ${{ steps.prepare_k8s.outputs.tag_with_version }}
 
         run: |
           cd .k8s/overlays/production
