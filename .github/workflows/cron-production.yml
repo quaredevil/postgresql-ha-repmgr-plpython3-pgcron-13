@@ -38,7 +38,7 @@ jobs:
         id: prepare_k8s
         run: |
           DOCKER_IMAGE=${{ secrets.DOCKERHUB_IMAGE }}
-          VERSION=latest
+          VERSION=${{ secrets.POSTGRESQL_VERSION }}-latest
           TAGS="${DOCKER_IMAGE}:${VERSION}"
 
           VERSION=${{ secrets.POSTGRESQL_VERSION }}-${{ steps.tag_version.outputs.new_tag#v }}
