@@ -1,4 +1,4 @@
-name: "Trigger Cron Job PostgreSQL - Production"
+name: "Trigger Cron Job PostgreSQL"
 
 on:
   push:
@@ -41,13 +41,15 @@ jobs:
           VERSION=latest
           TAGS="${DOCKER_IMAGE}:${VERSION}"
 
-          VERSION=${{ secrets.POSTGRESQL_VERSION }}-${{ steps.tag_version.outputs.new_tag }}
-          echo ::set-output name=tag_with_version::${TAG_WITH_VERSION}
+          VERSION=${{ secrets.POSTGRESQL_VERSION }}-${{ steps.tag_version.outputs.new_tag#v }}
+          echo ::set-output name=tag_with_version::${VERSION}
           
           TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION}"
           echo ::set-output name=tags::${TAGS}
+          
+          echo "Tag(version): ${VERSION}"
           echo "Tags: $TAGS"
-          echo "Tag(version): ${TAG_WITH_VERSION}"
+          
       
       #----------------------------------------------
       #This is the a separate action that sets up buildx runner
