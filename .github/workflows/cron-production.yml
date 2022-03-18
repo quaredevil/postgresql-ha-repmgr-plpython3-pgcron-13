@@ -5,12 +5,14 @@ on:
     branches:
       - main
 
-env:
-  postgresql-version: 13
 
 jobs:
   build-deploy-release:
     runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
     steps:
       #----------------------------------------------
       #       check-out repo
@@ -39,7 +41,7 @@ jobs:
           VERSION=latest
           TAGS="${DOCKER_IMAGE}:${VERSION}"
 
-          VERSION=${{ env.postgresql-version }}-${{ steps.tag_version.outputs.new_tag }}
+          VERSION=${{ secrets.POSTGRESQL_VERSION }}-${{ steps.tag_version.outputs.new_tag }}
           echo ::set-output name=tag_with_version::${TAG_WITH_VERSION}
           
           TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION}"

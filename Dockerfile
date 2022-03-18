@@ -1,5 +1,3 @@
-##docker build -t quaredevil/postgresql-repmgr-plpython3-pgcron:13-r6 .
-##docker push quaredevil/postgresql-repmgr-plpython3-pgcron:13-r6
 ############################################
 
 FROM bitnami/postgresql-repmgr:13
