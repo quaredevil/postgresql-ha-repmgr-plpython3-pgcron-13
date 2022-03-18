@@ -3,10 +3,9 @@ kind: Kustomization
 namespace: database-application-postgresql
 images:
 - name: container-image-to-change
-  newName: my-new-name
-  newTag: my-new-tag
+  newName: 13-v0.0.5
 commonLabels:
-  node.cluster.k8s.com/postgresql-version: '13'
   node.cluster.k8s.com/database: application-database-postgresql
+  node.cluster.k8s.com/postgresql-version: "13"
 resources:
 - ../../base
