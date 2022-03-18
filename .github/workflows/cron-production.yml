@@ -1,19 +1,12 @@
 name: "Trigger Cron Job PostgreSQL"
 
-#on:
-#  push:
-#    branches:
-#      - main
-#  schedule:
-#    - cron: "0 3 * * 3,7" #At 03:00 on Wednesday and Sunday.
-
 on:
   push:
     branches:
       - main
-  # Triggers the workflow every 5 minutes
+  # Triggers the workflow every 03:00 on Wednesday and Sunday.
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 3 * * 3,7"
 
 
 
