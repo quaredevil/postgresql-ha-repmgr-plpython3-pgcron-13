@@ -6,7 +6,7 @@ on:
       - main
   # Triggers the workflow every 03:00 on Wednesday and Sunday.
   schedule:
-    - cron: "0 3 * * 3,7"
+    - cron: "2,10 4,5 * * *"
 
 
 
