@@ -113,7 +113,7 @@ jobs:
           DOCKERHUB_TAGS: ${{ steps.prepare_k8s.outputs.tag_with_version }}
 
         run: |
-          cd .k8s/overlays/production
+          cd .k8s/overlays/application
           kustomize edit set image container-image-to-change=$DOCKERHUB_TAGS
           cat kustomization.yaml
 
