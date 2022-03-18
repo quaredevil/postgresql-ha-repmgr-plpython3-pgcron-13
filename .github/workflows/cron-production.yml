@@ -41,7 +41,7 @@ jobs:
           VERSION=${{ secrets.POSTGRESQL_VERSION }}-latest
           TAGS="${DOCKER_IMAGE}:${VERSION}"
 
-          VERSION=${{ secrets.POSTGRESQL_VERSION }}-${{ steps.tag_version.outputs.new_tag#v }}
+          VERSION=${{ secrets.POSTGRESQL_VERSION }}-${ ${{ steps.tag_version.outputs.new_tag }}:1 }
           echo ::set-output name=tag_with_version::${VERSION}
           
           TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION}"
