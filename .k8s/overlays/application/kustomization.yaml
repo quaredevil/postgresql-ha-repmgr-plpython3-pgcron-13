@@ -3,7 +3,8 @@ kind: Kustomization
 namespace: database-application-postgresql
 images:
 - name: container-image-to-change
-  newName: 13-v0.0.5
+  newName: quaredevil/postgresql-repmgr-plpython3-pgcron
+  newTag: 13-v0.0.6
 commonLabels:
   node.cluster.k8s.com/database: application-database-postgresql
   node.cluster.k8s.com/postgresql-version: "13"
