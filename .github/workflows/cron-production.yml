@@ -129,7 +129,7 @@ jobs:
           IMAGE_TAG: ${{ steps.prepare_k8s.outputs.image_with_tag }}
         run: |
           cd .helm
-          sed -r 's/^(\s*)(tag\s*:\s*change-tag\s*$)/\1tag: $IMAGE_TAG/' value.yaml >> value_app.yaml
+          sed -r 's/^(\s*)(tag\s*:\s*change-tag\s*$)/\1tag: '$IMAGE_TAG'/' value.yaml >> value_app.yaml
       
 
       #----------------------------------------------
