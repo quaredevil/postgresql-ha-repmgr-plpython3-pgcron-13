@@ -12,7 +12,7 @@ pgpool:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: node.finance.99app.com/purpose
+          - key: node.finance.com/purpose
             operator: In
             values:
             - application
@@ -20,7 +20,7 @@ pgpool:
       requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchExpressions:
-          - key: node.finance.99app.com/database
+          - key: node.finance.com/database
             operator: In
             values:
             - application-database-pgpool
@@ -41,7 +41,7 @@ pgpool:
   customUsersSecret: application-postgresql-ha-pgpool-users-connection 
   initdbScriptsCM: application-postgresql-ha-pool-initial-script
   labels:
-    node.finance.99app.com/database: application-database-pgpool
+    node.finance.com/database: application-database-pgpool
   livenessProbe:
     initialDelaySeconds: 60
     tcpSocket:
@@ -67,7 +67,7 @@ postgresql:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: node.finance.99app.com/purpose
+          - key: node.finance.com/purpose
             operator: In
             values:
             - database
@@ -75,7 +75,7 @@ postgresql:
       requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchExpressions:
-          - key: node.finance.99app.com/database
+          - key: node.finance.com/database
             operator: In
             values:
             - application-database-postgresql
@@ -85,7 +85,7 @@ postgresql:
   extendedConfCM: application-postgresql-ha-postgresql-extendedconf
   initdbScriptsCM: application-postgresql-ha-postgresql-initial-script
   labels:
-    node.finance.99app.com/database: application-database-postgresql
+    node.finance.com/database: application-database-postgresql
   livenessProbe:
     initialDelaySeconds: 60
   readinessProbe:
