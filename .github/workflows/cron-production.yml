@@ -104,26 +104,32 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      #----------------------------------------------
-      # Kustomize Build
-      #----------------------------------------------
-      - name: ☸️ K8S | Setup Kustomize
-        uses: imranismail/setup-kustomize@v1
-        with:
-          kustomize-version: ${{ secrets.KUSTOMIZE_VERSION }}
+      ##----------------------------------------------
+      ## Kustomize Build
+      ##----------------------------------------------
+      #- name: ☸️ K8S | Setup Kustomize
+      #  uses: imranismail/setup-kustomize@v1
+      #  with:
+      #    kustomize-version: ${{ secrets.KUSTOMIZE_VERSION }}
 
+      ##----------------------------------------------
+      ## Kustomize Build
+      ##----------------------------------------------
+      #- name: ☸️ K8S | Update manifests (kustomize)
+      #  env:
+      #    DOCKERHUB_TAGS: ${{ steps.prepare_k8s.outputs.image_with_tag }}
 
-      #----------------------------------------------
-      # Kustomize Build
-      #----------------------------------------------
-      - name: ☸️ K8S | Update manifests (kustomize)
+      #  run: |
+      #    cd .k8s/overlays/application
+      #    kustomize edit set image container-image-to-change=$DOCKERHUB_TAGS
+      #    cat kustomization.yaml
+
+      - name: 🏷️ Tag | Generate new values with tag
         env:
-          DOCKERHUB_TAGS: ${{ steps.prepare_k8s.outputs.image_with_tag }}
-
+          IMAGE_TAG: ${{ steps.prepare_k8s.outputs.image_with_tag }}
         run: |
-          cd .k8s/overlays/application
-          kustomize edit set image container-image-to-change=$DOCKERHUB_TAGS
-          cat kustomization.yaml
+          sed -r 's/^(\s*)(tag\s*:\s*change-tag\s*$)/\1tag: $IMAGE_TAG/' .helm/value.yaml >> .helm/app/value.yaml
+      
 
       #----------------------------------------------
       # Commit code 
