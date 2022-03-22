@@ -97,7 +97,7 @@ postgresql:
   startupProbe:
     initialDelaySeconds: 30
 postgresqlImage:
-  repository: quaredevil/postgresql-repmgr-plpython3-pgcron
-  tag: change-tag
+  repository: $CHANGE_IMAGE_NAME
+  tag: $CHANGE_IMAGE_TAG
 volumePermissions:
   enabled: false

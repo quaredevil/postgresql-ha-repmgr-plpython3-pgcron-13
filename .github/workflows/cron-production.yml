@@ -126,11 +126,11 @@ jobs:
 
       - name: 🏷️ Tag | Generate new values with tag
         env:
-          IMAGE_TAG: ${{ steps.prepare_k8s.outputs.tag_with_version }}
-          IMAGE_NAME: ${{ secrets.DOCKERHUB_IMAGE }}
+          CHANGE_IMAGE_TAG: ${{ steps.prepare_k8s.outputs.tag_with_version }}
+          CHANGE_IMAGE_NAME: ${{ secrets.DOCKERHUB_IMAGE }}
         run: |
           cd .helm
-          sed -r 's/^(\s*)(tag\s*:\s*change-tag\s*$)/\1tag: '$IMAGE_TAG'/; s/^(\s*)(repository\s*:\s*change-name\s*$)/\1repository: '$IMAGE_NAME'/' value.yaml > value_app.yaml
+          cat value.yaml | envsubst '$CHANGE_IMAGE_TAG, $CHANGE_IMAGE_NAME' > value_app.yaml
       
 
       #----------------------------------------------
