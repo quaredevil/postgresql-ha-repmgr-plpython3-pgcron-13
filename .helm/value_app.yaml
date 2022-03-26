@@ -98,6 +98,6 @@ postgresql:
     initialDelaySeconds: 30
 postgresqlImage:
   repository: quaredevil/postgresql-repmgr-plpython3-pgcron
-  tag: 13-v0.3.11
+  tag: 13-v0.3.12
 volumePermissions:
   enabled: false
