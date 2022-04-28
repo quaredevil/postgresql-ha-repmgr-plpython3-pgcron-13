@@ -6,13 +6,16 @@ global:
     existingSecret: application-postgresql-ha-postgresql
     repmgrUsername: admin
     username: postgres
+persistence:
+  size: 50Gi
+  storageClass: aws-ebs-database-application
 pgpool:
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: node.finance.com/purpose
+          - key: node.cluster.local/purpose
             operator: In
             values:
             - application
@@ -20,7 +23,7 @@ pgpool:
       requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchExpressions:
-          - key: node.finance.com/database
+          - key: node.cluster.local/database
             operator: In
             values:
             - application-database-pgpool
@@ -38,16 +41,16 @@ pgpool:
   customLivenessProbe:
     tcpSocket:
       port: postgresql
-  customUsersSecret: application-postgresql-ha-pgpool-users-connection 
+  customUsersSecret: application-postgresql-ha-pgpool-users-connection
   initdbScriptsCM: application-postgresql-ha-pool-initial-script
   labels:
-    node.finance.com/database: application-database-pgpool
+    node.cluster.local/database: application-database-pgpool
   livenessProbe:
     initialDelaySeconds: 60
     tcpSocket:
       port: postgresql
     timeoutSeconds: 15
-  logConnections: true
+  logConnections: false
   maxPool: 20
   readinessProbe:
     initialDelaySeconds: 60
@@ -67,7 +70,7 @@ postgresql:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: node.finance.com/purpose
+          - key: node.cluster.local/purpose
             operator: In
             values:
             - database
@@ -75,17 +78,17 @@ postgresql:
       requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchExpressions:
-          - key: node.finance.com/database
+          - key: node.cluster.local/database
             operator: In
             values:
             - application-database-postgresql
         topologyKey: kubernetes.io/hostname
   audit:
-    logConnections: true
+    logConnections: false
   extendedConfCM: application-postgresql-ha-postgresql-extendedconf
   initdbScriptsCM: application-postgresql-ha-postgresql-initial-script
   labels:
-    node.finance.com/database: application-database-postgresql
+    node.cluster.local/database: application-database-postgresql
   livenessProbe:
     initialDelaySeconds: 60
   readinessProbe:
@@ -96,8 +99,8 @@ postgresql:
   repmgrReconnectInterval: 5
   startupProbe:
     initialDelaySeconds: 30
+volumePermissions:
+  enabled: true
 postgresqlImage:
   repository: quaredevil/postgresql-repmgr-plpython3-pgcron
-  tag: 13-v0.3.21
-volumePermissions:
-  enabled: false
+  tag: 13-v0.1.17
